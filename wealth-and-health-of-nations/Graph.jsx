@@ -1,12 +1,6 @@
 Graph = React.createClass({
     
     updateGraph: function(props) {
-//	var data = props.data;
-
-//	var max = _.max(_.pluck(data, "qty"));
-//	var yScale = d3.scale.linear()
-//	                     .domain([0, max])
-//	                     .range([0, props.height - 35]);
 
 	// Various accessors that specify the four dimensions of data to visualize.
 	function x(d) { return d.income; }
@@ -130,6 +124,55 @@ Graph = React.createClass({
 	            .style("fill", function(d) { return colorScale(color(d)); })
 	            .call(position)
 	            .sort(order);
+
+	    // Add a title.
+	    dot.append("title")
+	        .text(function(d) { return d.name; });
+
+            // Add an overlay for the year label.
+//	    var box = label.node().getBBox();
+
+//	    var overlay = svg.append("rect")
+//	            .attr("class", "overlay")
+//	            .attr("x", box.x)
+//	            .attr("y", box.y)
+//	            .attr("width", box.width)
+//	            .attr("height", box.height)
+//	            .on("mouseover", enableInteraction);
+
+	    // Start a transition that interpolates the data based on year.
+	    svg.transition()
+	        .duration(30000)
+	        .ease("linear")
+	        .tween("year", tweenYear); // remove semicolon if you uncomment below!!!
+//	        .each("end", enableInteraction);
+
+	    // After the transition finishes, you can mouseover to change the year.
+	    //p
+	    // Tweens the entire chart by first tweening the year, and then the data.
+	    // For the interpolated data, the dots and label are redrawn.
+	    function tweenYear() {
+		var year = d3.interpolateNumber(1800, 2009);
+		return function(t) { displayYear(year(t)); };
+	    }
+
+	    // Updates the display to show the specified year.
+	    function displayYear(year) {
+		dot.data(interpolateData(year), key).call(position).sort(order);
+		label.text(Math.round(year));
+	    }
+
+	    
+
+	    
+	    
+
+	    
+	    
+	    
+	    
+
+	    
 
 	});
     },
