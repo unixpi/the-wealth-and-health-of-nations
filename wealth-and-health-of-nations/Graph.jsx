@@ -67,8 +67,71 @@ Graph = React.createClass({
 	    .attr("dy", ".75em")
 	    .attr("transform", "rotate(-90)")
 	    .text("life expectancy (years)");
-	
-	
+
+
+	// Add the year label; the value is set on transition.
+	var label = svg.append("text")
+		.attr("class", "year label")
+		.attr("text-anchor", "end")
+		.attr("y", height - 24)
+		.attr("x", width)
+		.text(1800);
+
+	// Load the data.
+	d3.json("data/nations.json", function(nations) {
+
+	    // A bisector since many nation's data is sparsely-defined.
+	    var bisect = d3.bisector(function(d) { return d[0]; });
+
+	    // Finds (and possibly interpolates) the value for the specified year.
+	    function interpolateValues(values, year) {
+		var i = bisect.left(values, year, 0, values.length - 1),
+		    a = values[i];
+		if (i > 0) {
+		    var b = values[i - 1],
+			t = (year - a[0]) / (b[0] - a[0]);
+		    return a[1] * (1 - t) + b[1] * t;
+		}
+		return a[1];
+	    }
+	    
+	    // Interpolates the dataset for the given (fractional) year.
+	    function interpolateData(year) {
+		return nations.map(function(d) {
+		    return {
+			name: d.name,
+			region: d.region,
+			income: interpolateValues(d.income, year),
+			population: interpolateValues(d.population, year),
+			lifeExpectancy: interpolateValues(d.lifeExpectancy, year)
+		    };
+		});
+	    }
+
+	    // Positions the dots based on data.
+	    function position(dot) {
+		dot .attr("cx", function(d) { return xScale(x(d)); })
+		    .attr("cy", function(d) { return yScale(y(d)); })
+		    .attr("r", function(d) { return radiusScale(radius(d)); });
+	    }
+
+	    // Defines a sort order so that the smallest dots are drawn on top.
+	    function order(a, b) {
+		return radius(b) - radius(a);
+	    }
+	    
+	    // Add a dot per nation. Initialize the data at 1800, and set the colors.
+	    var dot = svg.append("g")
+	            .attr("class", "dots")
+	            .selectAll(".dot")
+	            .data(interpolateData(1800))
+	            .enter().append("circle")
+	            .attr("class", "dot")
+	            .style("fill", function(d) { return colorScale(color(d)); })
+	            .call(position)
+	            .sort(order);
+
+	});
     },
     
     componentDidMount: function() {
