@@ -140,14 +140,38 @@ Graph = React.createClass({
 	            .data(interpolateData(1800))
 	            .enter().append("circle")
 	            .attr("class", "dot")
+		    .attr("id", function(d) { return d.name; })
 	            .style("fill", function(d) { return colorScale(color(d)); })
 	            .call(position)
 	            .sort(order);
 
+	    
+	    //Initiate the voronoi function
+	    //Use the same variables of the data in the .x and .y as used in the cx and cy
+	    //of the dot call
+
+	    var voronoi = d3.geom.voronoi()
+		    .x(function(d) { return xScale(x(d)); })
+		    .y(function(d) { return yScale(y(d)); })
+		    .clipExtent([[0, 0], [width, height]]);
+
+	    svg.selectAll("path")
+		.data(voronoi(interpolateData(1800))) //Use voronoi() with your dataset inside
+		.enter().append("path")
+		.attr("d", function(d, i) {return "M" + d.join("L") + "Z"; })
+		.datum(function(d, i) { return d.point; })
+	    //give each cell a unique id where the unique part corresponds to the dot ids
+		.attr("id", function(d,i) { return "voronoi" + d.name; })
+		.style("stroke", "#2074A0")
+		.style("fill", "none")
+		.style("pointer-events", "all");
+//		.on("mouseover", showTooltip)
+//		.on("mouseout", removeTooltip)
+		
 	    // Add a title.
 	    dot.append("title")
 	        .text(function(d) { return d.name; });
-
+	    
             // Add an overlay for the year label.
 	    var box = label.node().getBBox();
 
