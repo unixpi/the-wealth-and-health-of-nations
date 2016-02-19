@@ -167,6 +167,7 @@ Graph = React.createClass({
 		.attr("d", function(d, i) {return "M" + d.join("L") + "Z"; })
 		.datum(function(d, i) { return d.point; })
 	    //give each cell a unique id where the unique part corresponds to the dot ids
+	    //id is country name modulo spaces commas and fullstops
 		    .attr("id", function(d,i) { return "voronoi" + d.name.replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,''); })
 		.style("stroke", "#2074A0")
 		.style("fill", "none")
@@ -203,14 +204,26 @@ Graph = React.createClass({
 
 	    function showTooltip(d, i) {
 
+		d3.select("#countryname").remove();
 		d3.selectAll(".dot").style("opacity", 0.2);
-		d3.select("#" + d.name.replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,''))
-		    .style("opacity", 1);
+		var circle = d3.select("#" + d.name.replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,''));
+
+		circle.style("opacity", 1);
+
+		svg.append("text")
+		    .attr("id", "countryname")
+		    .attr("y", height - 10)
+		    .attr("x", 10)
+		    .text(d.name)
+		    .style("font-family", "Helvetica Neue")
+		    .style("font-size", 24)
+		    .style("fill", colorScale(color(d)));
 
 	    }
 
 	    function removeTooltip(d, i) {
 		d3.selectAll(".dot").style("opacity", 1);
+		d3.select("#countryname").remove();
 	    }
 	    
 	    function tweenYear() {
@@ -240,7 +253,7 @@ Graph = React.createClass({
 		.attr("d", function(d, i) {return "M" + d.join("L") + "Z"; })
 		.datum(function(d, i) { return d.point; })
 	    //give each cell a unique id where the unique part corresponds to the dot ids
-		.attr("id", function(d,i) { return "voronoi" + d.name; })
+		    .attr("id", function(d,i) { return "voronoi" + d.name.replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,''); })
 		.style("stroke", "#2074A0")
 		.style("fill", "none")
 		.style("pointer-events", "all")
