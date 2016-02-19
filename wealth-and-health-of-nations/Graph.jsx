@@ -75,15 +75,30 @@ Graph = React.createClass({
 	d3.json("data/nations.json", function(nations) {
 
 	    // A bisector since many nation's data is sparsely-defined.
-	    var bisect = d3.bisector(function(d) { return d[0]; });
+	    var bisect = d3.bisector(function(d) {
+		// d here is an array of two values, the first value is the year, the second
+		// is the relevant data (in this case either income, population or life expectancy)
+                //console.log("d");
+		//console.log(d);
+		//here we return the year (so we compare with the year to find the index) 
+		return d[0];
+	    });
 
 	    // Finds (and possibly interpolates) the value for the specified year.
 	    function interpolateValues(values, year) {
+
+		//locate the insertion point for 'year' in 'values' array to maintain sorted order
+		//the final two arguments '0' and 'values.length -1' are used to specify a subset of
+		//the array which should be considered. bisect.left returns the insertion point (index)
+		
 		var i = bisect.left(values, year, 0, values.length - 1),
 		    a = values[i];
+//		console.log("a = " + a);
 		if (i > 0) {
+		    //https://en.wikipedia.org/wiki/Linear_interpolation
 		    var b = values[i - 1],
 			t = (year - a[0]) / (b[0] - a[0]);
+//		    console.log("b = " + b);
 		    return a[1] * (1 - t) + b[1] * t;
 		}
 		return a[1];
@@ -92,6 +107,10 @@ Graph = React.createClass({
 	    // Interpolates the dataset for the given (fractional) year.
 	    function interpolateData(year) {
 		return nations.map(function(d) {
+
+//		    console.log("d.income");
+//		    console.log(d.income);
+		    
 		    return {
 			name: d.name,
 			region: d.region,
@@ -130,22 +149,22 @@ Graph = React.createClass({
 	        .text(function(d) { return d.name; });
 
             // Add an overlay for the year label.
-//	    var box = label.node().getBBox();
+	    var box = label.node().getBBox();
 
-//	    var overlay = svg.append("rect")
-//	            .attr("class", "overlay")
-//	            .attr("x", box.x)
-//	            .attr("y", box.y)
-//	            .attr("width", box.width)
-//	            .attr("height", box.height)
-//	            .on("mouseover", enableInteraction);
+	    var overlay = svg.append("rect")
+	            .attr("class", "overlay")
+	            .attr("x", box.x)
+	            .attr("y", box.y)
+	            .attr("width", box.width)
+	            .attr("height", box.height)
+	            .on("mouseover", enableInteraction);
 
 	    // Start a transition that interpolates the data based on year.
 	    svg.transition()
 	        .duration(30000)
 	        .ease("linear")
-	        .tween("year", tweenYear); // remove semicolon if you uncomment below!!!
-//	        .each("end", enableInteraction);
+	        .tween("year", tweenYear) // remove semicolon if you uncomment below!!!
+	        .each("end", enableInteraction);
 
 	    // After the transition finishes, you can mouseover to change the year.
 	    //p
@@ -158,22 +177,47 @@ Graph = React.createClass({
 
 	    // Updates the display to show the specified year.
 	    function displayYear(year) {
+		// we use a key function to reduce the number of DOM modifications:
+		// it allows us to reorder DOM elements in the update selection rather than
+		// regenerating them
+		//for more information see Mike Bostock's post on Object Constancy
+		//https://bost.ocks.org/mike/constancy/
+		//or the answer to this stackoverflow question:
+		//http://stackoverflow.com/questions/24175624/d3-key-function
+		
 		dot.data(interpolateData(year), key).call(position).sort(order);
 		label.text(Math.round(year));
 	    }
 
-	    
+	    // After the transition finishes, you can mouseover to change the year.
+	    function enableInteraction() {
+		var yearScale = d3.scale.linear()
+		        .domain([1800, 2009])
+		        .range([box.x + 10, box.x + box.width - 10])
+		        .clamp(true);
 
-	    
-	    
+		// Cancel the current transition, if any.
+		svg.transition().duration(0);
 
-	    
-	    
-	    
-	    
+		overlay
+		    .on("mouseover", mouseover)
+		    .on("mouseout", mouseout)
+		    .on("mousemove", mousemove)
+		    .on("touchmove", mousemove);
 
-	    
+		function mouseover() {
+		    label.classed("active", true);
+		}
 
+		function mouseout() {
+		    label.classed("active", false);
+		}
+
+		function mousemove() {
+		    displayYear(yearScale.invert(d3.mouse(this)[0]));
+		}
+	    }
+	    
 	});
     },
     
