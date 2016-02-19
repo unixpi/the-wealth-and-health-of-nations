@@ -126,8 +126,13 @@ Graph = React.createClass({
 		dot .attr("cx", function(d) { return xScale(x(d)); })
 		    .attr("cy", function(d) { return yScale(y(d)); })
 		    .attr("r", function(d) { return radiusScale(radius(d)); });
+
+		
 	    }
 
+	    function positionVoronoi(dot) {
+		
+	    }
 	    // Defines a sort order so that the smallest dots are drawn on top.
 	    function order(a, b) {
 		return radius(b) - radius(a);
@@ -155,7 +160,7 @@ Graph = React.createClass({
 		    .y(function(d) { return yScale(y(d)); })
 		    .clipExtent([[0, 0], [width, height]]);
 
-	    svg.selectAll("path")
+	    var voronoiTiling =  svg.selectAll("path")
 		.data(voronoi(interpolateData(1800))) //Use voronoi() with your dataset inside
 		.enter().append("path")
 		.attr("d", function(d, i) {return "M" + d.join("L") + "Z"; })
@@ -211,6 +216,21 @@ Graph = React.createClass({
 		
 		dot.data(interpolateData(year), key).call(position).sort(order);
 		label.text(Math.round(year));
+		d3.selectAll("path").remove();
+		//		voronoiTiling.data(voronoi(interpolateData(year)));
+		svg.selectAll("path")
+		.data(voronoi(interpolateData(year))) //Use voronoi() with your dataset inside
+		.enter().append("path")
+		.attr("d", function(d, i) {return "M" + d.join("L") + "Z"; })
+		.datum(function(d, i) { return d.point; })
+	    //give each cell a unique id where the unique part corresponds to the dot ids
+		.attr("id", function(d,i) { return "voronoi" + d.name; })
+		.style("stroke", "#2074A0")
+		.style("fill", "none")
+		.style("pointer-events", "all");
+//		.on("mouseover", showTooltip)
+//		.on("mouseout", removeTooltip)
+
 	    }
 
 	    // After the transition finishes, you can mouseover to change the year.
