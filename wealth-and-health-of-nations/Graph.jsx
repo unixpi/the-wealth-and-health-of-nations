@@ -145,7 +145,8 @@ Graph = React.createClass({
 	            .data(interpolateData(1800))
 	            .enter().append("circle")
 	            .attr("class", "dot")
-		    .attr("id", function(d) { return d.name; })
+		    .attr("id", function(d) { return (d.name)
+					      .replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,''); })
 	            .style("fill", function(d) { return colorScale(color(d)); })
 	            .call(position)
 	            .sort(order);
@@ -166,12 +167,12 @@ Graph = React.createClass({
 		.attr("d", function(d, i) {return "M" + d.join("L") + "Z"; })
 		.datum(function(d, i) { return d.point; })
 	    //give each cell a unique id where the unique part corresponds to the dot ids
-		.attr("id", function(d,i) { return "voronoi" + d.name; })
+		    .attr("id", function(d,i) { return "voronoi" + d.name.replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,''); })
 		.style("stroke", "#2074A0")
 		.style("fill", "none")
-		.style("pointer-events", "all");
-//		.on("mouseover", showTooltip)
-//		.on("mouseout", removeTooltip)
+		.style("pointer-events", "all")
+		.on("mouseover", showTooltip)
+		.on("mouseout", removeTooltip);
 		
 	    // Add a title.
 	    dot.append("title")
@@ -199,6 +200,19 @@ Graph = React.createClass({
 	    //p
 	    // Tweens the entire chart by first tweening the year, and then the data.
 	    // For the interpolated data, the dots and label are redrawn.
+
+	    function showTooltip(d, i) {
+
+		d3.selectAll(".dot").style("opacity", 0.2);
+		d3.select("#" + d.name.replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,''))
+		    .style("opacity", 1);
+
+	    }
+
+	    function removeTooltip(d, i) {
+		d3.selectAll(".dot").style("opacity", 1);
+	    }
+	    
 	    function tweenYear() {
 		var year = d3.interpolateNumber(1800, 2009);
 		return function(t) { displayYear(year(t)); };
@@ -216,6 +230,8 @@ Graph = React.createClass({
 		
 		dot.data(interpolateData(year), key).call(position).sort(order);
 		label.text(Math.round(year));
+
+		//redraw voronoi
 		d3.selectAll("path").remove();
 		//		voronoiTiling.data(voronoi(interpolateData(year)));
 		svg.selectAll("path")
@@ -227,9 +243,9 @@ Graph = React.createClass({
 		.attr("id", function(d,i) { return "voronoi" + d.name; })
 		.style("stroke", "#2074A0")
 		.style("fill", "none")
-		.style("pointer-events", "all");
-//		.on("mouseover", showTooltip)
-//		.on("mouseout", removeTooltip)
+		.style("pointer-events", "all")
+		.on("mouseover", showTooltip)
+		.on("mouseout", removeTooltip)
 
 	    }
 
