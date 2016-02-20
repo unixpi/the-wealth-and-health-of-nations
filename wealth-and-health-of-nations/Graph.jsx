@@ -146,7 +146,8 @@ Graph = React.createClass({
 	            .enter().append("circle")
 	            .attr("class", "dot")
 		    .attr("id", function(d) { return (d.name)
-					      .replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,''); })
+					      .replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,'')
+					      .replace(/\'/g,''); })
 	            .style("fill", function(d) { return colorScale(color(d)); })
 	            .call(position)
 	            .sort(order);
@@ -168,7 +169,10 @@ Graph = React.createClass({
 		.datum(function(d, i) { return d.point; })
 	    //give each cell a unique id where the unique part corresponds to the dot ids
 	    //id is country name modulo spaces commas and fullstops
-		    .attr("id", function(d,i) { return "voronoi" + d.name.replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,''); })
+		    .attr("id", function(d,i) { return "voronoi" + d.name.replace(/\s/g, '')
+						.replace(/\./g,'')
+						.replace(/\,/g,'')
+						.replace(/\'/g,''); })
 		.style("stroke", "#2074A0")
 		.style("fill", "none")
 		.style("pointer-events", "all")
@@ -206,7 +210,10 @@ Graph = React.createClass({
 
 		d3.select("#countryname").remove();
 		d3.selectAll(".dot").style("opacity", 0.2);
-		var circle = d3.select("#" + d.name.replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,''));
+		var circle = d3.select("#" + d.name.replace(/\s/g, '')
+				       .replace(/\./g,'')
+				       .replace(/\,/g,'')
+				       .replace(/\'/g,''));
 
 		circle.style("opacity", 1);
 
