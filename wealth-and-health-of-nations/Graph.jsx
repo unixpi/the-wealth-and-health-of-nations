@@ -321,9 +321,29 @@ Graph = React.createClass({
 	            
 	    ;
 
-	    var div1 = div.append("p").text("Added a Voronoi overlay to Mike Bostock's recreation in D3 of Gapminder's Wealth & Health of Nations, made famous by Hans Rosling's memorable 2006 TED talk. It shows the dynamic fluctuation in per-capita income (x), life expectancy (y) and population (radius) of 180 nations over the last 209 years. Nations are colored by geographic region; mouseover to read their names. The purpose of the Voronoi overlay is to improve mouseover interaction (when hovering over the graph the closest country to the mouse will be highlighted).");
+	    var div1 = div.append("p").text("Added a Voronoi overlay to ");
 
-	    var span = div1.append("span").text(" Mouseover the year to move forward and backwards through time.").style("color", "grey");
+	    var link1 = div1.append('a').text("Mike Bostock's recreation in D3 ")
+		    .attr("href", "https://bost.ocks.org/mike/nations/").style("color", "steelblue")
+	    	    .style("text-decoration", 'none');
+	    
+
+	    var span1 = div1.append('span').text("of Gapminder's ");
+
+	    var link2 = div1.append('a').text("Wealth & Health of Nations")
+		    .attr("href", "http://www.gapminder.org/world/").style("color", 'steelblue')
+	    	    .style("text-decoration", 'none');
+	    
+	    var span2 = div1.append('span').text(", made famous by Hans Rosling's memorable ");
+
+	    var link3 = div1.append('a').text("2006 TED talk")
+		    .attr("href", "http://www.ted.com/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen")
+		    .style("color", 'steelblue')
+		    .style("text-decoration", 'none');
+
+	    var span3 = div1.append('span').text(". It shows the dynamic fluctuation in per-capita income (x), life expectancy (y) and population (radius) of 180 nations over the last 209 years. Nations are colored by geographic region; mouseover to read their names. The purpose of the Voronoi overlay is to improve mouseover interaction (when hovering over the graph the closest country to the mouse will be highlighted).");
+
+	    var span = span3.append("span").text(" Mouseover the year to move forward and backwards through time.").style("color", "grey");
 	
 	    
 	});
