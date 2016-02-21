@@ -67,7 +67,7 @@ Graph = React.createClass({
 	var label = svg.append("text")
 		.attr("class", "year label")
 		.attr("text-anchor", "end")
-		.attr("y", height - 24)
+		.attr("y", height + 125)
 		.attr("x", width)
 		.text(1800);
 
@@ -314,7 +314,7 @@ Graph = React.createClass({
 	var svg = d3.select(el)
 		.append("svg")
 		.attr("width", this.props.width + marginLeft + marginRight)
-		.attr("height", this.props.height + marginTop + marginBottom);
+		.attr("height", this.props.height + marginTop + marginBottom + 120);
 //	        .append("g")
 //		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
