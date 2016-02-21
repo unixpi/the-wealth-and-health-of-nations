@@ -173,7 +173,7 @@ Graph = React.createClass({
 						.replace(/\./g,'')
 						.replace(/\,/g,'')
 						.replace(/\'/g,''); })
-		    .style("stroke", "#2074A0")
+		    .style("stroke", "rgb(0,128,128)")
 	    	    .style("visibility", d3.select("input").property("checked") ? "hidden" : "visible" )
 		.style("fill", "none")
 		.style("pointer-events", "all")
@@ -262,7 +262,7 @@ Graph = React.createClass({
 		.datum(function(d, i) { return d.point; })
 	    //give each cell a unique id where the unique part corresponds to the dot ids
 		    .attr("id", function(d,i) { return "voronoi" + d.name.replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,''); })
-		    .style("stroke", "#2074A0")
+		    .style("stroke", "rgb(0,128,128)")
 		    .style("visibility", d3.select("input").property("checked") ? "hidden" : "visible" )
 		.style("fill", "none")
 		.style("pointer-events", "all")
@@ -321,7 +321,12 @@ Graph = React.createClass({
 	            
 	    ;
 
-	    var div1 = div.append("p").text("Added a Voronoi overlay to ");
+	    var div1 = div.append("p").text("Added a ");
+
+	    var span = div1.append('span').text("Voronoi overlay").style("color", "rgb(0,128,128)");
+	    ;
+
+	    var span0 = div1.append('span').text(" to ");
 
 	    var link1 = div1.append('a').text("Mike Bostock's recreation in D3 ")
 		    .attr("href", "https://bost.ocks.org/mike/nations/").style("color", "steelblue")
@@ -341,9 +346,12 @@ Graph = React.createClass({
 		    .style("color", 'steelblue')
 		    .style("text-decoration", 'none');
 
-	    var span3 = div1.append('span').text(". It shows the dynamic fluctuation in per-capita income (x), life expectancy (y) and population (radius) of 180 nations over the last 209 years. Nations are colored by geographic region; mouseover to read their names. The purpose of the Voronoi overlay is to improve mouseover interaction (when hovering over the graph the closest country to the mouse will be highlighted).");
+	    var span3 = div1.append('span').text(". It shows the dynamic fluctuation in per-capita income (x), life expectancy (y) and population (radius) of 180 nations over the last 209 years. Nations are colored by geographic region; mouseover to read their names.");
 
-	    var span = span3.append("span").text(" Mouseover the year to move forward and backwards through time.").style("color", "grey");
+	    var span4 = div1.append('p').text(" The purpose of the Voronoi overlay is to improve mouseover interaction (when hovering over the graph the closest country to the mouse will be highlighted).")
+		    .style("color", "rgb(0,128,128)");
+
+	    var span = span4.append("span").text(" Mouseover the year to move forward and backwards through time.").style("color", "grey");
 	
 	    
 	});
