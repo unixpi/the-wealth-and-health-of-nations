@@ -350,10 +350,10 @@ Graph = React.createClass({
 
 	    var span3 = div1.append('span').text(". It shows the dynamic fluctuation in per-capita income (x), life expectancy (y) and population (radius) of 180 nations over the last 209 years. Nations are colored by geographic region; mouseover to read their names.");
 
-	    var span4 = div1.append('p').text(" The purpose of the Voronoi overlay is to improve mouseover interaction (when hovering over the graph the closest country to the mouse will be highlighted).")
+	    var span4 = div1.append('p').text(" The purpose of a Voronoi overlay is to improve mouseover interaction (in this case when hovering over the graph the closest country to the mouse will be highlighted).")
 		    .style("color", "rgb(0,128,128)");
 
-	    var span = span4.append("span").text(" Mouseover the year to move forward and backwards through time.").style("color", "grey");
+	    var span5 = span4.append("span").text(" Mouseover the year label on the right to move forward and backwards through time.").style("color", "grey");
 	
 	    
 	});
