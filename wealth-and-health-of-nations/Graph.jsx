@@ -67,7 +67,7 @@ Graph = React.createClass({
 	var label = svg.append("text")
 		.attr("class", "year label")
 		.attr("text-anchor", "end")
-		.attr("y", height + 125)
+		.attr("y", height + 130)
 		.attr("x", width)
 		.text(1800);
 
