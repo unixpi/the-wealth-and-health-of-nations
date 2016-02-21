@@ -315,7 +315,7 @@ Graph = React.createClass({
 		.attr("id", "introtext")
 		.attr("class", "explan-text")
 		.style("display", "inline")
-		.style("color", "orange")
+		.style("color", "black")
 		.style("left", 50 + "px")
 		.style("top", 510 + "px")
 	            .style("font-family", "Helvetica Neue")
