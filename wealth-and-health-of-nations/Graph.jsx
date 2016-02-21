@@ -173,7 +173,8 @@ Graph = React.createClass({
 						.replace(/\./g,'')
 						.replace(/\,/g,'')
 						.replace(/\'/g,''); })
-		.style("stroke", "#2074A0")
+		    .style("stroke", "#2074A0")
+	    	    .style("visibility", d3.select("input").property("checked") ? "hidden" : "visible" )
 		.style("fill", "none")
 		.style("pointer-events", "all")
 		.on("mouseover", showTooltip)
@@ -261,11 +262,12 @@ Graph = React.createClass({
 		.datum(function(d, i) { return d.point; })
 	    //give each cell a unique id where the unique part corresponds to the dot ids
 		    .attr("id", function(d,i) { return "voronoi" + d.name.replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,''); })
-		.style("stroke", "#2074A0")
+		    .style("stroke", "#2074A0")
+		    .style("visibility", d3.select("input").property("checked") ? "hidden" : "visible" )
 		.style("fill", "none")
 		.style("pointer-events", "all")
 		.on("mouseover", showTooltip)
-		.on("mouseout", removeTooltip)
+		.on("mouseout", removeTooltip);
 
 	    }
 
@@ -297,6 +299,16 @@ Graph = React.createClass({
 		    displayYear(yearScale.invert(d3.mouse(this)[0]));
 		}
 	    }
+
+
+	    d3.select("input").on("change", change);
+
+	    
+	    function change() {
+		this.checked ? svg.selectAll("path").style("visibility", "hidden")
+		    : svg.selectAll("path").style("visibility", "visible");
+	    }
+	
 	    
 	});
     },
