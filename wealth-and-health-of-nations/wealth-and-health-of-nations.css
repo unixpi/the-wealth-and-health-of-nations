@@ -42,7 +42,8 @@ text {
     left: 1005px;
     top: 30px;
     font-family: "Helvetica Neue";
-    color: grey;
+    font-size: 14px;
+    color: #2074A0;
 }
 
 .explan-text {
@@ -50,8 +51,8 @@ text {
     dispay: inline;
     left: 45px;
     top: 540px;
-    width: 550px;
+    width: 570px;
     font-family: "Helvetica Neue";
-    font-size: "14px"
+    font-size: "12px"
     color: black;
 }

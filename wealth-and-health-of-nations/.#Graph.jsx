@@ -1,1 +1,0 @@
-Sana@MacBook-Pro.local.2602

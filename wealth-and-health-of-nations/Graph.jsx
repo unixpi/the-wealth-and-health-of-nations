@@ -313,12 +313,17 @@ Graph = React.createClass({
 		.attr("id", "introtext")
 		.attr("class", "explan-text")
 		.style("display", "inline")
-		.style("color", "steelblue")
+		.style("color", "orange")
 		.style("left", 50 + "px")
-		.style("top", 510 + "px");
+		.style("top", 510 + "px")
+	            .style("font-family", "Helvetica Neue")
+	            .style("font-size", "13px")
+	            
+	    ;
 
-	div.append("p").text("Added a Voronoi overlay to Mike Bostock's recreation in D3 of Gapminder's Wealth & Health of Nations, made famous by Hans Rosling's memorable 2006 TED talk. It shows the dynamic fluctuation in per-capita income (x), life expectancy (y) and population (radius) of 180 nations over the last 209 years. Nations are colored by geographic region; mouseover to read their names.");
+	    var div1 = div.append("p").text("Added a Voronoi overlay to Mike Bostock's recreation in D3 of Gapminder's Wealth & Health of Nations, made famous by Hans Rosling's memorable 2006 TED talk. It shows the dynamic fluctuation in per-capita income (x), life expectancy (y) and population (radius) of 180 nations over the last 209 years. Nations are colored by geographic region; mouseover to read their names. The purpose of the Voronoi overlay is to improve mouseover interaction (when hovering over the graph the closest country to the mouse will be highlighted).");
 
+	    var span = div1.append("span").text(" Mouseover the year to move forward and backwards through time.").style("color", "grey");
 	
 	    
 	});
@@ -367,7 +372,7 @@ Graph = React.createClass({
     render: function() {
 	return (
 	    <div className="#chart">
-	      <label className="checkbox"><input type="checkbox"> </input> Hide lines</label>
+	      <label className="checkbox"><input type="checkbox"> </input> Hide Voronoi</label>
 	    </div>
 	);
     }
