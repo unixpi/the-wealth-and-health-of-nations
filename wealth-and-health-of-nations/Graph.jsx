@@ -343,7 +343,9 @@ Graph = React.createClass({
 
     render: function() {
 	return (
-	    <div className="#chart"></div>
+	    <div className="#chart">
+	      <label className="checkbox"><input type="checkbox"> </input> Hide lines</label>
+	    </div>
 	);
     }
 });

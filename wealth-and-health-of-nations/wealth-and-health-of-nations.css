@@ -35,3 +35,12 @@ text {
     pointer-events: all;
     cursor: ew-resize;
 }
+
+.checkbox {
+    position: absolute;
+    dispay: inline;
+    left: 45px;
+    top: 530px;
+    font-family: "Helvetica Neue";
+    color: grey;
+}
