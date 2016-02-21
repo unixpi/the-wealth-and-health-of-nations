@@ -175,7 +175,8 @@ Graph = React.createClass({
 						.replace(/\'/g,''); })
 		    .style("stroke", "rgb(0,128,128)")
 	    	    .style("visibility", d3.select("input").property("checked") ? "hidden" : "visible" )
-		.style("fill", "none")
+		    .style("fill", "none")
+		    .style("opacity", 0.5)
 		.style("pointer-events", "all")
 		.on("mouseover", showTooltip)
 		.on("mouseout", removeTooltip);
@@ -264,7 +265,8 @@ Graph = React.createClass({
 		    .attr("id", function(d,i) { return "voronoi" + d.name.replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,''); })
 		    .style("stroke", "rgb(0,128,128)")
 		    .style("visibility", d3.select("input").property("checked") ? "hidden" : "visible" )
-		.style("fill", "none")
+		    .style("fill", "none")
+		    .style("opacity", 0.5)
 		.style("pointer-events", "all")
 		.on("mouseover", showTooltip)
 		.on("mouseout", removeTooltip);
