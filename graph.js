@@ -143,11 +143,9 @@ function updateGraph() {
 
 	// Positions the dots based on data.
 	function position(dot) {
-	    dot .attr("cx", function(d) { return xScale(x(d)); })
+	    dot.attr("cx", function(d) { return xScale(x(d)); })
 		.attr("cy", function(d) { return yScale(y(d)); })
 		.attr("r", function(d) { return radiusScale(radius(d)); });
-
-
 	}
 
 	function positionVoronoi(dot) {
@@ -160,17 +158,17 @@ function updateGraph() {
 
 	// Add a dot per nation. Initialize the data at 1800, and set the colors.
 	var dot = svg.append("g")
-		.attr("class", "dots")
-		.selectAll(".dot")
-		.data(interpolateData(1800))
-		.enter().append("circle")
-		.attr("class", "dot")
-		.attr("id", function(d) { return (d.name)
-					  .replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,'')
-					  .replace(/\'/g,''); })
-		.style("fill", function(d) { return colorScale(color(d)); })
-		.call(position)
-		.sort(order);
+	    .attr("class", "dots")
+	    .selectAll(".dot")
+	    .data(interpolateData(1800))
+	    .enter().append("circle")
+	    .attr("class", "dot")
+	    .attr("id", function(d) { return (d.name)
+				      .replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,'')
+				      .replace(/\'/g,''); })
+	    .style("fill", function(d) { return colorScale(color(d)); })
+	    .call(position)
+	    .sort(order);
 
 
 	//Initiate the voronoi function
@@ -189,14 +187,14 @@ function updateGraph() {
 	    .datum(function(d, i) { return d.point; })
 	//give each cell a unique id where the unique part corresponds to the dot ids
 	//id is country name modulo spaces commas and fullstops
-		.attr("id", function(d,i) { return "voronoi" + d.name.replace(/\s/g, '')
-					    .replace(/\./g,'')
-					    .replace(/\,/g,'')
-					    .replace(/\'/g,''); })
-		.style("stroke", "rgb(0,128,128)")
-		.style("visibility", d3.select("input").property("checked") ? "hidden" : "visible" )
-		.style("fill", "none")
-		.style("opacity", 0.5)
+	    .attr("id", function(d,i) { return "voronoi" + d.name.replace(/\s/g, '')
+					.replace(/\./g,'')
+					.replace(/\,/g,'')
+					.replace(/\'/g,''); })
+	    .style("stroke", "rgb(0,128,128)")
+	    .style("visibility", d3.select("input").property("checked") ? "hidden" : "visible" )
+	    .style("fill", "none")
+	    .style("opacity", 0.5)
 	    .style("pointer-events", "all")
 	    .on("mouseover", showTooltip)
 	    .on("mouseout", removeTooltip);
@@ -277,20 +275,19 @@ function updateGraph() {
 	    d3.selectAll("path").remove();
 	    //		voronoiTiling.data(voronoi(interpolateData(year)));
 	    svg.selectAll("path")
-	    .data(voronoi(interpolateData(year))) //Use voronoi() with your dataset inside
-	    .enter().append("path")
-	    .attr("d", function(d, i) {return "M" + d.join("L") + "Z"; })
-	    .datum(function(d, i) { return d.point; })
-	//give each cell a unique id where the unique part corresponds to the dot ids
+		.data(voronoi(interpolateData(year))) //Use voronoi() with your dataset inside
+		.enter().append("path")
+		.attr("d", function(d, i) {return "M" + d.join("L") + "Z"; })
+		.datum(function(d, i) { return d.point; })
+	    //give each cell a unique id where the unique part corresponds to the dot ids
 		.attr("id", function(d,i) { return "voronoi" + d.name.replace(/\s/g, '').replace(/\./g,'').replace(/\,/g,''); })
 		.style("stroke", "rgb(0,128,128)")
 		.style("visibility", d3.select("input").property("checked") ? "hidden" : "visible" )
 		.style("fill", "none")
 		.style("opacity", 0.5)
-	    .style("pointer-events", "all")
-	    .on("mouseover", showTooltip)
-	    .on("mouseout", removeTooltip);
-
+		.style("pointer-events", "all")
+		.on("mouseover", showTooltip)
+		.on("mouseout", removeTooltip);
 	}
 
 	// After the transition finishes, you can mouseover to change the year.
@@ -338,8 +335,8 @@ function updateGraph() {
 	    .style("color", "black")
 	    .style("left", 50 + "px")
 	    .style("top", 510 + "px")
-		.style("font-family", "Helvetica Neue")
-		.style("font-size", "13px")
+	    .style("font-family", "Helvetica Neue")
+	    .style("font-size", "13px")
 
 	;
 
